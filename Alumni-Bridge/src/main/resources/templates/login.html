@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Login | Alumni Bridge</title>
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<style>
+body {
+	background: linear-gradient(to right, #4facfe, #00f2fe);
+}
+
+.card {
+	border-radius: 15px;
+}
+</style>
+</head>
+
+<body>
+
+	<div
+		class="container d-flex justify-content-center align-items-center vh-100">
+		<div class="col-md-4">
+
+			<div class="card shadow-lg">
+
+				<div class="card-header text-center bg-dark text-white">
+					<h4>🎓 Alumni Bridge</h4>
+					<small>Login to continue</small>
+				</div>
+
+				<div class="card-body">
+
+					<!-- Error Message -->
+					<div th:if="${error}" class="alert alert-danger text-center">
+						<span th:text="${error}"></span>
+					</div>
+
+					<form th:action="@{/login}" method="post">
+
+						<div class="mb-3">
+							<label>Email</label> <input type="email" name="username"
+								class="form-control" placeholder="Enter your email">
+						</div>
+
+						<div class="mb-3">
+							<label>Password</label> <input type="password" name="password"
+								class="form-control" placeholder="Enter password">
+						</div>
+
+						<button class="btn btn-dark w-100">Login</button>
+
+					</form>
+
+					<p class="text-center mt-3">
+						New here? <a href="/register" class="fw-bold text-decoration-none">Create
+							Account</a>
+					</p>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+</body>
+</html>

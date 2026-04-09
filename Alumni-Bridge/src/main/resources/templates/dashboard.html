@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Dashboard | Alumni Bridge</title>
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<style>
+body {
+	background-color: #f8f9fa;
+	padding-top: 70px;
+}
+
+.card:hover {
+	transform: scale(1.03);
+	transition: 0.3s;
+}
+</style>
+</head>
+
+<body>
+
+	<!-- Navbar -->
+	<div th:replace="fragments/navbar :: navbar"></div>
+
+	<div class="container mt-4">
+
+		<h3 class="mb-4">Welcome to Alumni Bridge 🎓</h3>
+
+		<div class="row g-4">
+
+			<div class="col-md-4">
+				<div class="card shadow text-center p-3">
+					<h5>👥 Alumni Network</h5>
+					<p>Connect with experienced alumni</p>
+					<button class="btn btn-outline-primary btn-sm">Explore</button>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="card shadow text-center p-3">
+					<h5>💼 Job Referrals</h5>
+					<p>Find opportunities from alumni</p>
+					<button class="btn btn-outline-success btn-sm">View Jobs</button>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="card shadow text-center p-3">
+					<h5>📅 Events</h5>
+					<p>Join webinars & meetups</p>
+					<button class="btn btn-outline-warning btn-sm">See Events</button>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</body>
+</html>
