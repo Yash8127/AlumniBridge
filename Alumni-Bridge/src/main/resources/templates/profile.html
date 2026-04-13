@@ -30,8 +30,9 @@ body {
 
 				<div class="card shadow-lg p-4 text-center">
 
-					<img src="https://via.placeholder.com/100"
-						class="rounded-circle mb-3" width="100">
+					<img th:src="@{'/' + ${user.profileImage}}" width="120"
+						height="120" class="rounded-circle"
+						onerror="this.src='https://via.placeholder.com/120'">
 
 					<h4 class="mb-3">My Profile</h4>
 

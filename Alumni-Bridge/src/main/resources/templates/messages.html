@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Messages</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body { background: #f4f6f9; padding-top: 70px; }
+
+        .message-card {
+            border-radius: 12px;
+            transition: 0.3s;
+        }
+
+        .message-card:hover {
+            transform: translateY(-3px);
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container">
+
+    <div class="text-center mb-4">
+        <h2>💬 Messages</h2>
+        <p class="text-muted">Your conversations</p>
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div th:if="${#lists.isEmpty(messages)}" class="text-center mt-5">
+        <h5>No messages yet</h5>
+        <p>Start a conversation from alumni directory</p>
+        <a href="/alumni" class="btn btn-primary">Explore Alumni</a>
+    </div>
+
+    <!-- MESSAGE LIST -->
+    <div class="list-group">
+
+        <a th:each="msg : ${messages}"
+           th:href="@{'/chat/' + ${msg.sender.id}}"
+           class="list-group-item list-group-item-action message-card p-3">
+
+            <div class="d-flex justify-content-between">
+                <b th:text="${msg.sender.name}"></b>
+                <small class="text-muted">recent</small>
+            </div>
+
+            <small class="text-muted" th:text="${msg.content}"></small>
+
+        </a>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

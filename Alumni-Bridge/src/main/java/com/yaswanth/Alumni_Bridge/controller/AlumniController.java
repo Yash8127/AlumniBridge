@@ -47,6 +47,7 @@ public class AlumniController {
 
 		User user = userService.getUserById(id);
 		model.addAttribute("user", user);
+		model.addAttribute("currentUser", session.getAttribute("loggedUser"));
 
 		return "view-user";
 	}
