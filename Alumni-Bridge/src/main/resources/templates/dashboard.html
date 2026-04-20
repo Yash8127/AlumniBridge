@@ -3,119 +3,163 @@
 <head>
 <title>Dashboard</title>
 
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-	rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
 body {
-	background: #f4f6f9;
-}
-
-.card {
-	border: none;
-	border-radius: 15px;
-	transition: 0.3s;
-}
-
-.card:hover {
-	transform: translateY(-5px);
+    background: #f4f6f9;
+    padding-top: 70px;
 }
 
 .welcome-box {
-	background: linear-gradient(135deg, #0d6efd, #6610f2);
-	color: white;
-	border-radius: 15px;
-	padding: 20px;
+    background: linear-gradient(135deg, #0d6efd, #6610f2);
+    color: white;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card {
+    text-align: center;
+    padding: 20px;
+}
+
+.stat-number {
+    font-size: 28px;
+    font-weight: bold;
 }
 
 .icon {
-	font-size: 30px;
+    font-size: 28px;
 }
 </style>
+
 </head>
 
 <body>
 
-	<!-- NAVBAR -->
-	<div th:replace="fragments/navbar :: navbar"></div>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 
-	<div class="container" style="margin-top: 90px;">
+<div class="container">
 
-		<!-- WELCOME SECTION -->
-		<div class="welcome-box mb-4 shadow">
-			<h3>Welcome to Alumni Bridge 🎓</h3>
-			<p>Connect, explore opportunities, and grow your network.</p>
-		</div>
+    <!-- 🔹 WELCOME -->
+    <div class="welcome-box mb-4 shadow">
+        <h3>
+            Welcome, <span th:text="${session.loggedUser.name}"></span>
+            <span th:if="${session.loggedUser.role == 'STUDENT'}">🎓</span>
+            <span th:if="${session.loggedUser.role == 'ALUMNI'}">👨‍💼</span>
+        </h3>
+        <p>Connect, explore opportunities, and grow your network.</p>
+    </div>
 
-		<!-- CARDS -->
-		<div class="row g-4">
+    <!-- 🔹 STATS -->
+    <div class="row g-4 mb-4">
 
-			<!-- ALUMNI -->
-			<div class="col-md-4">
-				<div class="card shadow p-4 text-center">
-					<div class="icon">👥</div>
-					<h5 class="mt-2">Alumni Network</h5>
-					<p>Connect with experienced alumni</p>
-					<a href="/alumni" class="btn btn-outline-primary btn-sm">Explore</a>
-				</div>
-			</div>
+        <div class="col-md-3">
+            <div class="card shadow stat-card">
+                <div class="icon">👥</div>
+                <div class="stat-number" th:text="${alumniCount}">0</div>
+                <p>Alumni</p>
+            </div>
+        </div>
 
-			<!-- JOBS -->
-			<div class="col-md-4">
-				<div class="card shadow p-4 text-center">
-					<div class="icon">💼</div>
-					<h5 class="mt-2">Job Referrals</h5>
-					<p>Find opportunities from alumni</p>
-					<a href="/jobs" class="btn btn-outline-success btn-sm">View
-						Jobs</a>
-				</div>
-			</div>
+        <div class="col-md-3">
+            <div class="card shadow stat-card">
+                <div class="icon">💼</div>
+                <div class="stat-number" th:text="${jobCount}">0</div>
+                <p th:text="${session.loggedUser.role == 'STUDENT'} ? 'Available Jobs' : 'Jobs Posted'"></p>
+            </div>
+        </div>
 
-			<!-- APPLICATIONS -->
-			<div class="col-md-4">
-				<div class="card shadow p-4 text-center">
-					<div class="icon">📄</div>
-					<h5 class="mt-2">My Applications</h5>
-					<p>Track your job applications</p>
-					<a href="/my-applications" class="btn btn-outline-warning btn-sm">View</a>
-				</div>
-			</div>
+        <div class="col-md-3">
+            <div class="card shadow stat-card">
+                <div class="icon">📄</div>
+                <div class="stat-number" th:text="${applicationCount}">0</div>
+                <p>Applications</p>
+            </div>
+        </div>
 
-		</div>
+        <div class="col-md-3">
+            <div class="card shadow stat-card">
+                <div class="icon">📅</div>
+                <div class="stat-number" th:text="${eventCount}">0</div>
+                <p>Events</p>
+            </div>
+        </div>
 
-		<!-- EXTRA SECTION -->
-		<div class="row mt-5">
+    </div>
 
-			<div class="col-md-6">
-				<div class="card shadow p-4">
-					<h5>📢 Latest Updates</h5>
-					<ul>
-						<li>New jobs added daily</li>
-						<li>Connect with alumni for referrals</li>
-						<li>Keep your profile updated</li>
-					</ul>
-				</div>
-			</div>
+    <!-- 🔹 STUDENT ACTIONS -->
+    <div class="row g-4" th:if="${session.loggedUser.role == 'STUDENT'}">
 
-			<div class="col-md-6">
-				<div class="card shadow p-4">
-					<h5>🚀 Tips</h5>
-					<ul>
-						<li>Complete your profile</li>
-						<li>Apply early for jobs</li>
-						<li>Stay active in the network</li>
-					</ul>
-				</div>
-			</div>
+        <div class="col-md-4">
+            <div class="card shadow p-4 text-center">
+                <div class="icon">💼</div>
+                <h5>Find Jobs</h5>
+                <a href="/jobs" class="btn btn-outline-success btn-sm">Explore</a>
+            </div>
+        </div>
 
-		</div>
+        <div class="col-md-4">
+            <div class="card shadow p-4 text-center">
+                <div class="icon">👥</div>
+                <h5>Alumni Network</h5>
+                <a href="/alumni" class="btn btn-outline-primary btn-sm">Connect</a>
+            </div>
+        </div>
 
-	</div>
+        <div class="col-md-4">
+            <div class="card shadow p-4 text-center">
+                <div class="icon">📅</div>
+                <h5>Events</h5>
+                <a href="/events" class="btn btn-outline-info btn-sm">View</a>
+            </div>
+        </div>
 
-	<!-- IMPORTANT JS -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </div>
+
+    <!-- 🔹 ALUMNI / ADMIN ACTIONS -->
+    <div class="row g-4"
+         th:if="${session.loggedUser.role == 'ALUMNI' or session.loggedUser.role == 'ADMIN'}">
+
+        <div class="col-md-4">
+            <div class="card shadow p-4 text-center">
+                <div class="icon">➕</div>
+                <h5>Post Job</h5>
+                <a href="/post-job" class="btn btn-outline-primary btn-sm">Create</a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow p-4 text-center">
+                <div class="icon">📅</div>
+                <h5>Create Event</h5>
+                <a href="/create-event" class="btn btn-outline-info btn-sm">Create</a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow p-4 text-center">
+                <div class="icon">👥</div>
+                <h5>View Alumni</h5>
+                <a href="/alumni" class="btn btn-outline-success btn-sm">Explore</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
-</html>
+</html>F

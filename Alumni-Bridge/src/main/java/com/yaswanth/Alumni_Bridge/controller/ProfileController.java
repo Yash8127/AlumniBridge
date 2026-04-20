@@ -65,8 +65,8 @@ public class ProfileController {
 
 	// 🔹 SAVE PROFILE + IMAGE UPLOAD
 	@PostMapping("/save-profile")
-	public String saveProfile(@ModelAttribute Profile profile, @RequestParam("image") MultipartFile file,
-			HttpSession session) throws Exception {
+	public String saveProfile(@ModelAttribute Profile profile,
+			@RequestParam(value = "image", required = false) MultipartFile file, HttpSession session) throws Exception {
 
 		User user = (User) session.getAttribute("loggedUser");
 
@@ -74,8 +74,8 @@ public class ProfileController {
 			return "redirect:/login";
 		}
 
-		// 🔥 HANDLE IMAGE UPLOAD
-		if (!file.isEmpty()) {
+		// 🔥 HANDLE IMAGE UPLOAD (FIXED)
+		if (file != null && !file.isEmpty()) {
 
 			String uploadDir = System.getProperty("user.dir") + "/uploads/";
 
@@ -87,21 +87,20 @@ public class ProfileController {
 
 			String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
 
-			// optional: remove spaces
 			fileName = fileName.replaceAll(" ", "_");
 
 			file.transferTo(new File(uploadDir + fileName));
 
 			user.setProfileImage(fileName);
-			userService.registerUser(user);
+			userService.registerUser(user); // update user
+
 		}
 
-		// 🔥 CHECK EXISTING PROFILE
+		// 🔥 PROFILE UPDATE
 		Profile existingProfile = profileService.getProfile(user);
 
 		if (existingProfile != null) {
 
-			// UPDATE
 			existingProfile.setSkills(profile.getSkills());
 			existingProfile.setCompany(profile.getCompany());
 			existingProfile.setExperience(profile.getExperience());

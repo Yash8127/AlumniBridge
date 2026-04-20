@@ -39,7 +39,9 @@ body {
 				<div class="card shadow-lg p-4 text-center">
 
 					<!-- PROFILE IMAGE -->
-					<img src="https://via.placeholder.com/100" class="profile-img mb-3">
+					<img th:src="@{'/' + ${user.profileImage}}" width="120"
+						height="120" class="rounded-circle"
+						onerror="this.src='https://via.placeholder.com/120'">
 
 					<!-- BASIC INFO -->
 					<h4 th:text="${user.name}"></h4>

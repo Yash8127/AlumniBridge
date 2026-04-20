@@ -27,4 +27,7 @@ public class ApplicationService {
 	public List<Application> getUserApplications(User user) {
 		return repo.findByUser(user);
 	}
+	public List<Application> getApplicationsByUser(User user) {
+	    return repo.findByUser(user);
+	}
 }

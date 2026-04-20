@@ -41,13 +41,16 @@ public class JobController {
 
 	// POST JOB PAGE
 	@GetMapping("/post-job")
-	public String postJobPage(Model model, HttpSession session) {
+	public String createJobPage(Model model, HttpSession session) {
 
-		if (session.getAttribute("loggedUser") == null) {
-			return "redirect:/login";
+		User user = (User) session.getAttribute("loggedUser");
+
+		if (user == null || (!user.getRole().equals("ALUMNI") && !user.getRole().equals("ADMIN"))) {
+			return "redirect:/jobs";
 		}
 
-		model.addAttribute("job", new Job());
+		model.addAttribute("job", new Job()); // 🔥 REQUIRED
+
 		return "post-job";
 	}
 
@@ -57,7 +60,12 @@ public class JobController {
 
 		User user = (User) session.getAttribute("loggedUser");
 
+		if (user == null || (!user.getRole().equals("ALUMNI") && !user.getRole().equals("ADMIN"))) {
+			return "redirect:/jobs";
+		}
+
 		job.setPostedBy(user);
+
 		jobService.saveJob(job);
 
 		return "redirect:/jobs";
