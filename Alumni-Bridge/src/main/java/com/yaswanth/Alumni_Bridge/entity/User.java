@@ -19,6 +19,10 @@ public class User {
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private Profile profile;
 	private String profileImage;
+	@Column(nullable = false)
+	private Boolean blocked = false;
+
+	
 
 	// getters & setters
 }

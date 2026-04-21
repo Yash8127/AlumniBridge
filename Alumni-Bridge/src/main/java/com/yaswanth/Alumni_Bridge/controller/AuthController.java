@@ -38,18 +38,25 @@ public class AuthController {
 
 	// 🔹 LOGIN PROCESS
 	@PostMapping("/login")
-	public String login(@RequestParam String username, @RequestParam String password, HttpSession session,
+	public String loginUser(@RequestParam String email, @RequestParam String password, HttpSession session,
 			Model model) {
 
-		User user = service.loginUser(username, password);
+		User user = service.loginUser(email, password);
 
 		if (user != null) {
+
 			session.setAttribute("loggedUser", user);
-			return "redirect:/dashboard";
-		} else {
-			model.addAttribute("error", "Invalid Email or Password");
-			return "login";
+
+			// 🔥 ROLE BASED REDIRECT
+			if ("ADMIN".equals(user.getRole())) {
+				return "redirect:/admin/dashboard";
+			} else {
+				return "redirect:/dashboard";
+			}
 		}
+
+		model.addAttribute("error", "Invalid credentials");
+		return "login";
 	}
 
 	// 🔹 LOGOUT
@@ -57,5 +64,10 @@ public class AuthController {
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/login";
+	}
+
+	@GetMapping("/")
+	public String home() {
+		return "index";
 	}
 }

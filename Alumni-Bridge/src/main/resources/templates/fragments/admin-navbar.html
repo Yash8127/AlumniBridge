@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<nav
+		class="navbar navbar-expand-lg navbar-dark bg-dark shadow fixed-top"
+		th:fragment="adminNavbar">
+
+		<div class="container">
+
+			<!-- LOGO -->
+			<a class="navbar-brand fw-bold" href="/admin/dashboard"> 👨‍💼
+				Admin Panel </a>
+
+			<!-- TOGGLE -->
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#adminNav"
+				aria-controls="adminNav" aria-expanded="false"
+				aria-label="Toggle navigation">
+
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<!-- MENU -->
+			<div class="collapse navbar-collapse" id="adminNav">
+
+				<ul class="navbar-nav ms-auto align-items-center">
+
+					<li class="nav-item"><a class="nav-link"
+						href="/admin/dashboard">📊 Dashboard</a></li>
+
+					<li class="nav-item"><a class="nav-link" href="/admin/users">👥
+							Users</a></li>
+
+					<li class="nav-item"><a class="nav-link" href="/admin/jobs">💼
+							Jobs</a></li>
+
+					<li class="nav-item"><a class="nav-link" href="/admin/events">📅
+							Events</a></li>
+
+					<!-- OPTIONAL: BACK TO APP -->
+					<li class="nav-item"><a class="nav-link" href="/dashboard">🏠
+							User Panel</a></li>
+
+					<!-- LOGOUT -->
+					<li class="nav-item ms-3"><a class="btn btn-danger btn-sm"
+						href="/logout"> Logout </a></li>
+
+				</ul>
+
+			</div>
+
+		</div>
+
+	</nav>
+
+</body>
+</html>

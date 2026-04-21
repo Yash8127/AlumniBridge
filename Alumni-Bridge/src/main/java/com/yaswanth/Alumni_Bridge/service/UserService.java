@@ -39,28 +39,52 @@ public class UserService {
 		return repo.findAll();
 	}
 
-	public List<User> searchUsers(String keyword, String role) {
+	public List<User> searchUsers(String keyword, String role, Long currentUserId) {
+
+		List<User> users;
 
 		if ((keyword == null || keyword.isEmpty()) && (role == null || role.isEmpty())) {
-			return repo.findAll();
+			users = repo.findAll();
+		} else if (keyword != null && !keyword.isEmpty() && role != null && !role.isEmpty()) {
+			users = repo.findByNameContainingIgnoreCaseAndRole(keyword, role);
+		} else if (keyword != null && !keyword.isEmpty()) {
+			users = repo.findByNameContainingIgnoreCase(keyword);
+		} else if (role != null && !role.isEmpty()) {
+			users = repo.findByRole(role);
+		} else {
+			users = repo.findAll();
 		}
 
-		if (keyword != null && !keyword.isEmpty() && role != null && !role.isEmpty()) {
-			return repo.findByNameContainingIgnoreCaseAndRole(keyword, role);
-		}
-
-		if (keyword != null && !keyword.isEmpty()) {
-			return repo.findByNameContainingIgnoreCase(keyword);
-		}
-
-		if (role != null && !role.isEmpty()) {
-			return repo.findByRole(role);
-		}
-
-		return repo.findAll();
+		// 🔥 FILTER HERE
+		return users.stream().filter(u -> !u.getId().equals(currentUserId)) // ❌ remove self
+				.filter(u -> !u.getRole().equals("ADMIN")) // ❌ remove admin
+				.toList();
 	}
 
 	public User getUserById(Long id) {
 		return repo.findById(id).orElse(null);
 	}
+
+	public void deleteUser(Long id) {
+		repo.deleteById(id);
+	}
+
+	public void toggleBlockUser(Long id) {
+
+		User user = repo.findById(id).orElse(null);
+
+		if (user != null) {
+
+			Boolean blocked = user.getBlocked();
+
+			if (blocked == null) {
+				blocked = false;
+			}
+
+			user.setBlocked(!blocked);
+
+			repo.save(user);
+		}
+	}
+
 }

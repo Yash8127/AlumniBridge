@@ -29,7 +29,9 @@ public class AlumniController {
 			return "redirect:/login";
 		}
 
-		List<User> users = userService.searchUsers(keyword, role);
+		User currentUser = (User) session.getAttribute("loggedUser");
+
+		List<User> users = userService.searchUsers(keyword, role, currentUser.getId());
 
 		model.addAttribute("users", users);
 		model.addAttribute("keyword", keyword);

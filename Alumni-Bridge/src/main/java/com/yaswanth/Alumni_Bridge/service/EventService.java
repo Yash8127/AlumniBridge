@@ -41,4 +41,8 @@ public class EventService {
 	public boolean isRegistered(User user, Event event) {
 		return regRepo.existsByUserAndEvent(user, event);
 	}
+
+	public void deleteEvent(Long id) {
+		eventRepo.deleteById(id);
+	}
 }
