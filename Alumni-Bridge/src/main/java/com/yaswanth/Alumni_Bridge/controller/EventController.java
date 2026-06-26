@@ -34,6 +34,10 @@ public class EventController {
 	@GetMapping("/events")
 	public String viewEvents(Model model, HttpSession session) {
 
+		if (session.getAttribute("loggedUser") == null) {
+			return "redirect:/login";
+		}
+
 		model.addAttribute("events", eventService.getAllEvents());
 		model.addAttribute("eventService", eventService); // 🔥 important
 
